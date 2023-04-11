@@ -1,0 +1,89 @@
+# active spring boot profile
+spring:
+   profiles:
+      active: development
+
+
+
+---
+# common spring boot configuration
+spring:
+   mvc:
+      # Path pattern used for static resources
+      static-path-pattern: /assets/**
+
+      # Whether a "NoHandlerFoundException" should be thrown if no Handler was found to process a request
+      throw-exception-if-no-handler-found: true
+   web:
+      resources:
+         # Locations of static resources
+         static-locations: classpath:/assets/
+   thymeleaf:
+      prefix : classpath:templates/
+      check-template-location: true
+      mode: HTML5
+      suffix : .html
+      cache : false
+   servlet:
+      multipart:
+         enabled: true
+         max-file-size: 20MB
+         max-request-size: 100MB
+
+   # datasource
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://34.64.53.57:3306/smartlogistics?characterEncoding=utf8
+      username: user2
+      password: user2       
+      hikari:
+         minimum-idle: 10  
+         maximum-pool-size: 20 
+
+# logging
+logging:
+   level:
+      root: INFO 
+         
+# mybatis
+mybatis:
+   config-location: classpath:mybatis/configuration.xml
+---
+# development profile: spring boot configuration
+spring:
+   config:
+      activate:
+         on-profile: development
+   web:
+      resources:
+         static-locations: classpath:/assets/, file:/mysite-uploads/
+   # devtools - live reload
+   devtools:
+      livereload:
+         enabled: true
+
+# server
+server:
+   port: 8080
+   servlet:
+      context-path: /
+      encoding:
+         charset: UTF-8
+         enabled: true
+         
+---
+
+# production profile: spring boot configuration
+spring:
+   config:
+      activate:
+         on-profile: production
+
+# server
+server:
+   port: 8080
+   servlet:
+      context-path: /
+      encoding:
+         charset: UTF-8
+         enabled: true
